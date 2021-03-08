@@ -1,0 +1,21 @@
+#main{
+    border: black;
+}
+#loby{
+    width: 75%;
+    float: left;
+}
+#chat{
+    width: 25%;
+    float: left;
+}
+#msg-box{
+    position:initial;
+    width:75%;
+    float: left;
+}
+#send{
+    position:initial;
+    width:25%;
+    float: left;
+}
