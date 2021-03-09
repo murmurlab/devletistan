@@ -1,21 +1,64 @@
+body{
+    height:100%;
+    width:100%;
+    }
 #main{
-    border: black;
+    border-color: black;
+    height:100%;
+    border-width:10px;
+    border-style: solid;
+    display:flex; 
+    }
+#game{
+    border: 3px solid rgb(255, 0, 0);
+    height: 100%;
+    width: 50%;
+    left: 0%;
 }
 #loby{
-    width: 75%;
-    float: left;
-}
-#chat{
+    border: 3px solid rgb(0, 255, 0);
     width: 25%;
-    float: left;
+    left: 0%;
+    height: 500px;
+    }
+div.scrollmenu{
+    background-color: rgb(0, 0, 0);
+    overflow-y:scroll;
+    white-space: nowrap;
 }
+div.scrollmenu dl{
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+}
+div.scrollmenu dl:hover {
+    background-color: rgb(0, 128, 0);
+    
+  }
+#chat{
+    border: 3px solid rgb(0, 0, 255);
+    width: 25%;
+    display:flex;  
+    position:relative;
+    background-color: rgb(0, 0, 0);
+    }
+#controller{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    display:flex;
+    justify-content:space-evenly;
+    }
 #msg-box{
-    position:initial;
-    width:75%;
-    float: left;
-}
+    width:85%;
+    height:10%;
+    }
 #send{
-    position:initial;
-    width:25%;
-    float: left;
-}
+    width:35%;
+    height:12.5%;
+    background-color:green;
+    color:white;
+    }
+h1{
+    color: rgb(255, 255, 255);
+    }
