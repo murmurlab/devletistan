@@ -17,7 +17,13 @@ function send (msg){
     z.appendChild(x)
     document.getElementById("messages").appendChild(z)
     document.getElementById("messages").appendChild(b)
-    scrollToBottom("chat")
+    scrollToBottom("messages")
 }
 
 document.getElementById("send").addEventListener("click",send)
+
+let socket = io()
+
+socket.on("msg",msg=>{
+    
+})

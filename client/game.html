@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Devletistan</title>
+    <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="style.css">
     <script defer src="client.js"></script>
 </head>
@@ -84,6 +85,50 @@
                 <br>
             </div>
         </div>
+        <div id="chat-loby" >
+            <button>ODA SOHBETİ</button>
+            <div id="messages-loby" class="scrollmenu">
+                <dl>
+                    <dt>kullanıcı adı</dt>
+                    <dd>mesaj içeriği</dd>
+                </dl>
+                <br>
+                <dl>
+                    <dt>kullanıcı adı</dt>
+                    <dd>mesaj içeriği</dd>
+                </dl>
+                <br>
+                <dl>
+                    <dt>kullanıcı adı</dt>
+                    <dd>mesaj içeriği</dd>
+                </dl>
+                <br>
+                <dl>
+                    <dt>kullanıcı adı</dt>
+                    <dd>mesaj içeriği</dd>
+                </dl>
+                <br>
+                <dl>
+                    <dt>kullanıcı adı</dt>
+                    <dd>mesaj içeriği</dd>
+                </dl>
+                <br>
+                <dl>
+                    <dt>kullanıcı adı</dt>
+                    <dd>mesaj içeriği</dd>
+                </dl>
+                <br>
+                <dl>
+                    <dt>kullanıcı adı</dt>
+                    <dd>mesaj içeriği</dd>
+                </dl>
+                <br>
+            </div>
+            <div id="controller-loby">
+                <input type="text" name="" id="msg-box-loby">
+                <button id="send-loby">GÖNDER</button>    
+            </div>
+        </div>
         <div id="chat" >
             <button>SOHBET</button>
             <div id="messages" class="scrollmenu">
@@ -127,7 +172,7 @@
                 <input type="text" name="" id="msg-box">
                 <button id="send">GÖNDER</button>    
             </div>
-        </div>    
+        </div>
     </div>
 
 </body>
