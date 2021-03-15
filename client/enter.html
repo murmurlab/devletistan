@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="179093935575-hi380bs29g8ob1nbmhnv7vkl52nigmv8.apps.googleusercontent.com">
+    <script src="enter.js"defer></script>
+    <script src="https://apis.google.com/js/platform.js" onload="renderButton()" defer></script>
     <title>GİRİŞ DEVLETİSTAN</title>
 </head>
 <body>
+    <a href="game.html">DEVLETİSTAN</a><br>
     <form method="POST">
         <select name="method">
             <option value="login">gir</option>
@@ -19,5 +23,7 @@
         </select>
         <input type="submit">
     </form>
+    <div id="my-signin2" class="g-signin2" data-onsuccess="onSignIn"></div>
+    <a href="/" onclick="signOut();">Sign out</a>
 </body>
 </html>

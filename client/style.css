@@ -16,14 +16,21 @@
   }
 body{
     height:100%;
+    width: 100%;
     }
 #main{
+    min-width: 1280px;
+    min-height: 720px;
     border-color: black;
     height:100%;
+    width: 100%;
     border-width:10px;
     border-style: solid;
     display:flex; 
     }
+#can{
+    z-index: 100;
+}
 #game{
     border: 3px solid rgb(255, 0, 0);
     height: 100%;
