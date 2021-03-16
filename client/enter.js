@@ -22,11 +22,12 @@ function onSuccess(googleUser) {
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
     let req1 = new XMLHttpRequest()
-    req1.open("POST", "http://4.tcp.ngrok.io:10186")
+    req1.open("POST", "http://4.tcp.ngrok.io:14630")
     
     req1.onload = function() {
-
-        //console.log('response: ' + req1.responseText);
+        window.location.replace(req1.responseURL);
+        //console.log('response: ' + req1.responseURL);
+        
       }
     
     req1.send('idtoken=' + id_token);

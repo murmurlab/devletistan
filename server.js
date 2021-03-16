@@ -45,14 +45,39 @@ let dirs,
     }
 }
 
+
+async function tokenize(token,client_id){
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: client_id,  
+        // Specify the CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        
+    })
+    const payload = ticket.getPayload()
+    // If request specified a G Suite domain:
+    // const domain = payload['hd'];
+    console.log(payload);
+    return 1
+}
+
 reqHandler = (istek,yanıt)=>{
     
     let contentType = 'text/html'
     let ex ="html"
     dirs = fs.readdirSync("./client/")
+    let cookies = {}
+
+    if (istek.headers.cookie) {
+        istek.headers.cookie.split(";").forEach(element => {
+            cookies[element.split("=")[0]]=element.split("=")[1]
+            })
+    }
+    
 
     if (istek.method==="POST") {
-        let cookies = {},coki
+        
         
         let data = JSON.parse(fs.readFileSync("users.json").toString())
 
@@ -109,9 +134,7 @@ reqHandler = (istek,yanıt)=>{
                     console.log("en az => x=&&&");
                 }
             }else{
-                    istek.headers.cookie.split(";").forEach(element => {
-                    cookies[element.split("=")[0]]=element.split("=")[1]
-                });
+                    
                 //console.log(cookies);
 
                 async function verify() {
@@ -134,29 +157,29 @@ reqHandler = (istek,yanıt)=>{
                     // const domain = payload['hd'];
                     console.log(payload,userid);
 
-                    yanıt.writeHead(200, {
+                    yanıt.writeHead(301, {
+                        "Location": "/game.html",
                         'Set-Cookie': "usertoken="+token,
                         'Content-Type': 'text/plain'
                         })
                     //WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw
-                    if(!data.users[token]){
+                    if(!data.users[payload["sub"]]){
 
-                    data.users[token]={
+                    data.users[payload["sub"]]={
                         "name": payload["name"]
                     }
                     fs.writeFileSync("users.json",JSON.stringify(data,null,2))
                     console.log("kayıt edildi")
                     
                     if(dirs.find(a=>a=="game.html")){
-                        return yanıt.end(fs.readFileSync("client/game.html"))
+                        return yanıt.end("kayıt ediliyor")
                         }else{
 
                         }
-
-                        }else{
+                    }else{
                             if(dirs.find(a=>a=="game.html")){
-                                //get isteğind ehtml response edemiyon
-                                yanıt.end(fs.readFileSync("client/game.html"))
+                                //get isteğine ehtml response edemiyon
+                                yanıt.end("giriş yapılıyor")
                                 }else{
     
                             }
@@ -231,45 +254,66 @@ reqHandler = (istek,yanıt)=>{
         console.log(istek.method,istek.url)
     }
     if (istek.method==="GET") {
-        
-        if (istek.url=="/") {
-            if(dirs.find(a=>a=="enter.html")){
-                return yanıt.end(fs.readFileSync("client/enter.html"))
+        async function get(){
+            if (istek.url=="/") {
+                if(dirs.find(a=>a=="enter.html")){
+                    return yanıt.end(fs.readFileSync("client/enter.html"))
+                }
             }
-        }
-           
-        file = istek.url.slice(1)
-        ex = istek.url.split(".")[1]
 
-        switch (ex) {
-            case 'js':
-                contentType = 'text/javascript';
-                break;
-            case 'css':
-                contentType = 'text/css';
-                break;
-            case 'json':
-                contentType = 'application/json';
-                break;
-            case 'png':
-                contentType = 'image/png';
-                break;      
-            case 'jpg':
-                contentType = 'image/jpg';
-                break;
-            case 'wav':
-                contentType = 'audio/wav';
-                break;
-        }
-    
-        if(dirs.find(a=>a==file)){
-            yanıt.writeHead(200,{"Content-Type": contentType})
-            return yanıt.end(fs.readFileSync("client/"+file))
-        }else{
-            return yanıt.end(fs.readFileSync("client/404.html"))
-        }
-    
+            if (istek.url=="/game.html") {
+                await tokenize(cookies[" usertoken"],CLIENT_ID).then(()=>{
+                    if(dirs.find(a=>a=="game.html")){
+                        console.log("verified...");
+                        return yanıt.end(fs.readFileSync("client/game.html"))
+                    }else{
 
+                    }
+                    }).catch(()=>{
+                        if(dirs.find(a=>a=="enter.html")){
+                            console.log("cant verified");
+                            return yanıt.end(fs.readFileSync("client/enter.html"))
+                        }else{
+
+                        }
+                        })
+                }
+            
+            
+            file = istek.url.slice(1)
+            ex = istek.url.split(".")[1]
+
+            switch (ex) {
+                case 'js':
+                    contentType = 'text/javascript';
+                    break;
+                case 'css':
+                    contentType = 'text/css';
+                    break;
+                case 'json':
+                    contentType = 'application/json';
+                    break;
+                case 'png':
+                    contentType = 'image/png';
+                    break;      
+                case 'jpg':
+                    contentType = 'image/jpg';
+                    break;
+                case 'wav':
+                    contentType = 'audio/wav';
+                    break;
+                }
+        
+            if(dirs.find(a=>a==file)){
+                yanıt.writeHead(200,{"Content-Type": contentType})
+                return yanıt.end(fs.readFileSync("client/"+file))
+            }else{
+                return yanıt.end(fs.readFileSync("client/404.html"))
+                }
+        
+
+            }
+            get()
     }
 
  
@@ -277,12 +321,34 @@ reqHandler = (istek,yanıt)=>{
 }
 const httpsServer = https.createServer(options, reqHandler)
 const httpServer = http.createServer(reqHandler)
-const socket = require("socket.io")(httpsServer)
+const socket = require("socket.io")(httpServer)
 
-socket.on("connection",client=>{
-    client.on("msg",msg=>{
-        socket.emit("msg",msg)
+socket.on("connection",io=>{
+    console.log("user a connected");
+    io.on("global",msg=>{
+        client.verifyIdToken({
+            idToken:msg.token,
+            audience:CLIENT_ID
+        }).then(a=>{
+            /* console.log(a); */
+
+
+            let objServer = new Object
+
+            objServer["msg"]=msg.msg
+            objServer["username"]=a.payload.name
+            socket.emit("global",objServer)
+
+        }).catch(e=>{
+            console.log(e);
+        })
     })
+    io.on("crelob",obj=>{
+        console.log(obj);
+    })
+})
+socket.on("disconnect",client=>{
+    console.log("user a disconnected");
 })
 
 httpServer.listen(PORT,WLAN_HOST,()=>console.log("ok http"))
