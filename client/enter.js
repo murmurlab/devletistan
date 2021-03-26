@@ -1,8 +1,4 @@
 
-function onSignIn(googleUser) {
-
-    }   
-    
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
@@ -20,19 +16,20 @@ function onSuccess(googleUser) {
     console.log('Name: ' + profile.getName());
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-
+    document.cookie="usertoken="+id_token
     let req1 = new XMLHttpRequest()
-    req1.open("POST", "http://4.tcp.ngrok.io:14630")
+    req1.open("POST", window.location.origin)
     
     req1.onload = function() {
+        console.log(req1);
         window.location.replace(req1.responseURL);
         //console.log('response: ' + req1.responseURL);
         
-      }
-    
-    req1.send('idtoken=' + id_token);
-    console.log("token sended");
     }
+    
+    req1.send("cookie okunsun diye post");
+    console.log("cookie okunsun diye post");
+}
 function onFailure(error) {
     console.log(error);
     }

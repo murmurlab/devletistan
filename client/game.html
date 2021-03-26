@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Devletistan</title>
     <meta name="google-signin-client_id" content="179093935575-hi380bs29g8ob1nbmhnv7vkl52nigmv8.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" defer></script>
+    <script defer src="client.js"></script>
+    <script src="https://apis.google.com/js/platform.js" onload="renderButton()" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.min.js" integrity="sha512-aC5ZfKOuGRUiJCv+E/EIWsj49E02BQpuLQbixZe+16Lm1R6AepHZA1xvY92XBQNNbwQoqG4DXCGxwoxBFb5Q1A==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
-    <script defer src="client.js"></script>
 </head>
 <body>
+    <button data-modal-target="#modal" id="ac">AÇ</button>
+    <div id="modal" class="modal">
+        <div class="modal-header">
+            <div class="title">dasdass</div>
+            <button data-close-button class="close-button">*</button>
+        </div>
+        <div class="modal-body">
+            
+            <div id="my-signin2" class="g-signin2" data-onsuccess="onSignIn"></div>
+            
+
+        </div>
+    </div>
+    <div id="overlay"></div>
     <a href="/" onclick="signOut();">Sign out</a>
     <div id="main">
         <div id="game">
